@@ -1,1 +1,1 @@
-{"getFunctionName":"HelloWorldJava","getLogStreamName":"2024/08/18/[$LATEST]d5a93704b23d4cd8bd813df3dea92c0a","getInvokedFunctionArn":"arn:aws:lambda:us-east-1:201991434007:function:HelloWorldJava","getRemainingTimeInMillis":"2982","getLogGroupName":"/aws/lambda/HelloWorldJava","getFunctionVersion":"$LATEST","getMemoryLimitInMB":"512","getAwsRequestId":"9ee05590-e88b-4059-8da4-62adba78812f"}
+{"errorMessage":"2024-08-20T20:19:30.375Z 2ee25f9e-5560-4570-9652-1ae391089888 Task timed out after 2.01 seconds"}
