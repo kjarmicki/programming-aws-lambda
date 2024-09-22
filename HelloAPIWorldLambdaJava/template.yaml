@@ -1,0 +1,71 @@
+AWSTemplateFormatVersion: 2010-09-09
+Transform: AWS::Serverless-2016-10-31
+Description: HelloAPIWorldLambdaJava
+
+Globals:
+  Api:
+    OpenApiVersion: '3.0.1'
+
+Resources:
+  LocationsTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      PrimaryKey:
+        Name: locationName
+        Type: String
+
+  WeatherEventLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      Runtime: java8
+      MemorySize: 512
+      Handler: book.WeatherEventLambda::handler
+      CodeUri: target/lambda.jar
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref LocationsTable
+      Events:
+        ApiEvents:
+          Type: Api
+          Properties:
+            Path: /events
+            Method: POST
+
+  WeatherQueryLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      Runtime: java8
+      MemorySize: 512
+      Handler: book.WeatherQueryLambda::handler
+      CodeUri: target/lambda.jar
+      Timeout: 25
+      Environment:
+        Variables:
+          LOCATIONS_TABLE: !Ref LocationsTable
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref LocationsTable
+      Events:
+        ApiEvents:
+          Type: Api
+          Properties:
+            Path: /locations
+            Method: GET
+
+  HelloAPIWorldLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      Runtime: java8
+      MemorySize: 512
+      Handler: book.HelloApiWorld::handler
+      CodeUri: target/lambda.jar
+      Timeout: 25
+      Environment:
+        Variables:
+          LOCATIONS_TABLE: !Ref LocationsTable
+      Events:
+        MyApi:
+          Type: Api
+          Properties:
+            Path: /foo
+            Method: get
